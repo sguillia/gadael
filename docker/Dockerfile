@@ -25,13 +25,13 @@ RUN npm install -g bower
 WORKDIR /app
 COPY package.json package-lock.json /app/
 COPY bower.json /app/
-RUN cd /app && npm set progress=false && npm install
+RUN cd /app && npm set progress=false && npm install && npm install -g ponicode
 
 RUN bower install --allow-root
 
 # Configure App
 COPY .  /app
 RUN mv config.docker.js config.js
-CMD node /app/app.js
+CMD ponicode node /app/app.js
 ENV NODE_ENV production
 EXPOSE 3000

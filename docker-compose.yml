@@ -3,8 +3,9 @@ services:
   mongo:
     image: mongo:latest
     restart: always
-    networks:
-      - traefik
+    network_mode: "host"
+    ports:
+      - "27017:27017"
   gadael:
     build:
       context: .
@@ -23,7 +24,7 @@ services:
       - APP_CRYPTO_KEY=k8yb0brda2t
       - APP_TIMEOUT=
       - DB_INIT=true
-      - DB_HOST=mongo/
+      - DB_HOST=localhost/
       - DB_NAME=gadael
       - DB_AUTO_INDEX=true
       - LOGIN_ATTEMPT_IP=50
@@ -47,11 +48,4 @@ services:
     restart: always
     depends_on: 
       - mongo
-    networks:
-      - "traefik"
-    
-networks:
-  traefik:
-    # external:
-    #   name: traefik_webgateway
-    driver: bridge
+    network_mode: "host"
